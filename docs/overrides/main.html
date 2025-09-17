@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  <style>
+    /* Replace the entire navigation background with the gradient in both light and dark modes */
+    .md-header {
+      background-image: linear-gradient(90deg, 
+        #30216F 0%,     /* Deep Purple */
+        #7C4ACD 20%,    /* Medium Purple */
+        #E94BBF 40%,    /* Vibrant Magenta/Pink */
+        #F2A1E6 60%,    /* Light Pink */
+        #2B76E5 100%    /* Electric Blue */
+      ) !important;
+      /* Override any theme color */
+      background-color: transparent !important;
+    }
+    
+    /* Ensure text is visible on the gradient background */
+    .md-header, .md-header a, .md-header .md-header__button {
+      color: white !important;
+    }
+    
+    /* Make header tabs more visible */
+    .md-tabs {
+      background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+  </style>
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}

@@ -1,0 +1,43 @@
+
+/* Target the logo image or SVG */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 2.4rem;  /* Adjust as needed */
+  width: 4.3rem;
+}
+
+/* Optional: remove default padding/margins */
+.md-header__button.md-logo {
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom gradient styles for the navigation banner */
+.custom-gradient-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px; /* Height of the gradient banner */
+  background: linear-gradient(90deg, 
+    #30216F 0%,     /* Deep Purple */
+    #7C4ACD 20%,    /* Medium Purple */
+    #E94BBF 40%,    /* Vibrant Magenta/Pink */
+    #F2A1E6 60%,    /* Light Pink */
+    #2B76E5 100%    /* Electric Blue */
+  );
+  z-index: 10;
+}
+
+/* Alternative full-height gradient for the header */
+.md-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+}
+
+/* Make sure the gradient looks good in both light and dark modes */
+[data-md-color-scheme="default"] .custom-gradient-banner,
+[data-md-color-scheme="slate"] .custom-gradient-banner {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
