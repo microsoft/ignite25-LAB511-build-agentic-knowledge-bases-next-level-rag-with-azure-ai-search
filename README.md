@@ -2,6 +2,20 @@
 
 Thanks for creating content for Ignite!  Please follow this guidance so all ignite repos have the same look and feel.
 
+## How to contact Skillable?
+
+If you have issues with the Skillable environment, please follow these steps:
+
+1. Open an issue in the [Issues](../../issues) tab using the `New issue` button.
+1. Describe the problem, be descriptive, use screenshots if possible etc.
+1. Tag the following Skillable employees:
+   - @kylerosenthal
+   - @TubaMikeBob
+   - @Naimjones16
+   - @jmbauf
+1. Have all the discussions related to the issue in the issue itself.
+1. Once the issue is resolved, please mark it as Closed.
+
 ## Put your docs in the docs folder
 
 This repo is configured for a user to view the docs through mkdocs.
