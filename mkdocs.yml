@@ -19,15 +19,15 @@
 
 
 # Project information .........................................
-site_name: "Session Title"
+site_name: "LAB511: Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search"
 site_url: 
-site_author: Content Creator
+site_author: Ayca Bas
 site_description: >-
   Demo mkdocs for Ignite Repos
 
 # Repository ..................................................
-repo_name: microsoft/Ignite25-Repo-Template
-repo_url: https://github.com/microsoft/Ignite25-Repo-Template
+repo_name: microsoft/ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search
+repo_url: https://github.com/microsoft/ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search
 
 # Copyright ...................................................
 copyright: >
