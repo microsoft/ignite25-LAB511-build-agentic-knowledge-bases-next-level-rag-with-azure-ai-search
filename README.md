@@ -89,9 +89,9 @@ By the end of this session, learners will be able to:
 
 ### 💻 Technologies Used
 
-1. Azure AI Search – for multi-index retrieval, hybrid search, and advanced agentic retrieval capabilities.
-1. Azure AI Foundry – for models natural language understanding, reasoning, and response generation.
-1. GitHub Codespaces / VS Code – for hands-on development, testing, and deployment of the Knowledge Agent.
+1. Azure AI Search
+1. Azure AI Foundry
+1. GitHub Codespaces / VS Code
 
 ### 🌟 Microsoft Learn MCP Server
 
