@@ -70,28 +70,28 @@ Send them to [Mike Kinsman](mailto:mikki@microsoft.com) and [Laurent Bugnion](lb
 
 # [Microsoft Ignite 2025](https://ignite.microsoft.com)
 
-## 🔥BRKXXX: Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search
+## 🔥LAB511: Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search
 
 [![Microsoft Azure AI Foundry Discord](https://dcbadge.limes.pink/api/server/ByRwuEEgH4)](https://discord.com/invite/ByRwuEEgH4)
 [![Azure AI Foundry Developer Forum](https://img.shields.io/badge/GitHub-Azure_AI_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=adff2f&logoColor=fff)](https://aka.ms/foundry/forum)
 
 ### Session Description
 
-*Add Session Description*
+In this hands-on lab, you’ll build a Knowledge Agent using agentic RAG, the next evolution of retrieval in Azure AI Search. Connect your agentic retrieval engine to your data through smart source selection across multiple indexes and storage systems. Learn how to enhance planning using natural language guidance and generate grounded responses with citations or extractive answers tailored to your use case. By the end, you’ll have a fully functional Knowledge Agent responds over enterprise data.
 
 ### 🧠 Learning Outcomes
 
 By the end of this session, learners will be able to:
 
--  
--
--
+- Design and build a Knowledge Agent that uses agentic RAG to retrieve, reason, and respond over enterprise data.
+- Implement smart source selection to connect and query multiple indexes and data sources intelligently.
+- Use natural language guidance to enhance query planning and generate grounded, citation-rich, or extractive responses tailored to business needs.
 
 ### 💻 Technologies Used
 
-1.
-1.
-1.
+1. Azure AI Search – for multi-index retrieval, hybrid search, and advanced agentic retrieval capabilities.
+1. Azure AI Foundry – for models natural language understanding, reasoning, and response generation.
+1. GitHub Codespaces / VS Code – for hands-on development, testing, and deployment of the Knowledge Agent.
 
 ### 🌟 Microsoft Learn MCP Server
 
@@ -113,26 +113,28 @@ For more information, setup instructions for other dev clients, and to post comm
 
 ## Content Owners
 
-<!-- TODO: Add yourself as a content owner
-1. Change the src in the image tag to {your github url}.png
-2. Change INSERT NAME HERE to your name
-3. Change the github url in the final href to your url. -->
-
 <table>
 <tr>
-    <td align="center"><a href="http://github.com/mikekinsman">
-        <img src="https://github.com/mikekinsman.png" width="100px;" alt="INSERT NAME HERE"
+    <td align="center"><a href="http://github.com/aycabas">
+        <img src="https://github.com/aycabas.png" width="100px;" alt="Ayca Bas"
 "/><br />
-        <sub><b> INSERT NAME HERE
+        <sub><b> Ayca Bas
 </b></sub></a><br />
-            <a href="https://github.com/mikekinsman" title="talk">📢</a> 
+            <a href="https://github.com/aycabas" title="talk">📢</a> 
     </td>
-    <td align="center"><a href="http://github.com/mikekinsman">
-        <img src="https://github.com/mikekinsman.png" width="100px;" alt="INSERT NAME HERE
+    <td align="center"><a href="http://github.com/mattgotteiner">
+        <img src="https://github.com/mattgotteiner.png" width="100px;" alt="Matt Gotteniner
 "/><br />
-        <sub><b>INSERT NAME HERE
+        <sub><b>Matt Gotteiner
 </b></sub></a><br />
-            <a href="https://github.com/mikekinsman" title="talk">📢</a> 
+            <a href="https://github.com/mattgotteiner" title="talk">📢</a> 
+    </td>
+    <td align="center"><a href="http://github.com/pamelafox">
+        <img src="https://github.com/pamelafox.png" width="100px;" alt="Pamela Fox"
+"/><br />
+        <sub><b> Pamela Fox
+</b></sub></a><br />
+            <a href="https://github.com/pamelafox" title="talk">📢</a> 
     </td>
 </tr></table>
 
