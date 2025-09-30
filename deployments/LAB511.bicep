@@ -7,15 +7,15 @@
 param resourcePrefix string = 'lab511'
 
 @description('The location where all resources will be deployed')
-param location string = resourceGroup().location
+param location string = 'eastus'
 
 @description('Storage account SKU')
 @allowed(['Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS'])
-param storageAccountSku string = 'Standard_LRS'
+param storageAccountSku string = 'Standard_RAGRS'
 
 @description('AI Search service SKU')
 @allowed(['basic', 'standard', 'standard2', 'standard3', 'storage_optimized_l1', 'storage_optimized_l2'])
-param searchServiceSku string = 'basic'
+param searchServiceSku string = 'standard'
 
 @description('OpenAI service SKU')
 @allowed(['S0'])
