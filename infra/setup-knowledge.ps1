@@ -15,7 +15,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$workRoot        = "$env:USERPROFILE\Desktop\Lab511"
+$workRoot        = "$env:USERPROFILE\Desktop\LAB511"
 $knowledgeFolder = Join-Path $workRoot "notebook"
 New-Item -ItemType Directory -Force -Path $workRoot,$knowledgeFolder | Out-Null
 
@@ -42,7 +42,7 @@ USE_VERBALIZATION=$UseVerbalization
 "@ | Set-Content -Path $envPath -Encoding UTF8
 
 # Path to the existing documents folder
-$docsPath = "C:\Lab511\data\ai-search-data"
+$docsPath = "C:\LAB511\data\ai-search-data"
 if (-not (Test-Path $docsPath)) {
     throw "❌ Documents folder not found at $docsPath. Please check the path."
 }
