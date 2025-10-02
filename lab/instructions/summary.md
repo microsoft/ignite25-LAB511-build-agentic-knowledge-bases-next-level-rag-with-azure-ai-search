@@ -1,6 +1,6 @@
 # Summary
 
-Congratulations!🎉 You’ve just completed the journey of building a **Knowledge Agent** — a new class of intelligent retrieval system that plans, reasons, and responds over enterprise data. By following the guided notebook, you brought together everything needed to power real-world copilots and enterprise assistants.
+**Congratulations! 🎉** You’ve just completed the journey of building a Knowledge Agent that plans, reasons, and responds over enterprise data. By following the guided notebook, you brought together everything needed to power real-world copilots and enterprise assistants.
 
 This lab wasn’t just about running code, it was about understanding how retrieval becomes *intelligent* when guided by a large language model. You explored how an agent can search across diverse data, make decisions about what to use, and deliver grounded, explainable responses that users can trust.
 

@@ -1,6 +1,6 @@
 
 
-These instructions are for participants of the **instructor-led** Workshop "Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search" at Microsoft Ignite 2025.  Register to attend in a city near you at [Microsoft AI Tour](https://ignite.microsoft.com/).
+These instructions are for participants of the **instructor-led** Workshop "Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search" at Microsoft Ignite 2025.  Register to attend in a city near you at [Microsoft Ignite](https://ignite.microsoft.com/).
 
 ## Lab Overview
 
@@ -38,4 +38,3 @@ If you enjoyed this workshop, consider giving the repository a ⭐ on GitHub and
 
 The source code for this session is available in the [notebook folder](../notebook) of this repository.  
 You can use it as a reference for future projects, extend it with additional capabilities, or integrate it into your own solutions built on Azure AI Search and agentic retrieval.
-
