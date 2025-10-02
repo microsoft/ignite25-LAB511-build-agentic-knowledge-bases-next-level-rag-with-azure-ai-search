@@ -1,4 +1,4 @@
-import os, asyncio
+import os, asyncio, glob
 from dotenv import load_dotenv
 
 from azure.core.credentials import AzureKeyCredential
@@ -39,6 +39,27 @@ async def ensure_container_exists():
         async with bsc.get_container_client(blob_container_name) as cc:
             if not await cc.exists():
                 await cc.create_container()
+
+async def upload_local_docs():
+    local_docs_path = os.getenv("LOCAL_DOCS_PATH", r"C:\Lab511\data\index-data")  # default path
+    if not os.path.exists(local_docs_path):
+        print(f"⚠️ LOCAL_DOCS_PATH not found: {local_docs_path}, skipping upload.")
+        return
+
+    print(f"📁 Uploading documents from: {local_docs_path}")
+    async with BlobServiceClient.from_connection_string(blob_connection_string) as blob_service_client:
+        container_client = blob_service_client.get_container_client(blob_container_name)
+        if not await container_client.exists():
+            await container_client.create_container()
+        for file_path in glob.glob(os.path.join(local_docs_path, "*")):
+            blob_name = os.path.basename(file_path)
+            async with container_client.get_blob_client(blob_name) as blob_client:
+                if not await blob_client.exists():
+                    with open(file_path, "rb") as f:
+                        await blob_client.upload_blob(f)
+                    print(f"✅ Uploaded: {blob_name}")
+                else:
+                    print(f"↩️ Skipped (already exists): {blob_name}")
 
 async def create_knowledge():
     chat_model = KnowledgeAgentAzureOpenAIModel(
@@ -87,12 +108,13 @@ async def create_knowledge():
 
     async with SearchIndexClient(endpoint=endpoint, credential=credential) as client:
         await client.create_or_update_knowledge_source(knowledge_source)
-        print(f"Created/updated knowledge source: {knowledge_source.name}")
+        print(f"✅ Created/updated knowledge source: {knowledge_source.name}")
         await client.create_or_update_agent(agent)
-        print(f"Created/updated knowledge agent: {agent.name}")
+        print(f"✅ Created/updated knowledge agent: {agent.name}")
 
 async def main():
     await ensure_container_exists()
+    await upload_local_docs()         
     await create_knowledge()
 
 if __name__ == "__main__":
