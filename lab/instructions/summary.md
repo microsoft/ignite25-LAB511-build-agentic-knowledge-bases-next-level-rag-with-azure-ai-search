@@ -11,7 +11,7 @@ This lab wasn’t just about running code, it was about understanding how retrie
 - Used **LLM-driven reasoning** to guide retrieval decisions and generate high-quality, citation-backed answers.  
 - Experienced how **agentic behavior** — planning, adapting, and iterating — elevates RAG beyond simple search.
 
-## 📚 Continue Learning
+## Continue Learning
 
 - [Azure AI Search](https://learn.microsoft.com/azure/search/) – Deep dive into indexing, querying, and retrieval capabilities.  
 - [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-azure-ai-foundry) – Learn how to integrate and optimize LLMs in your solutions.  
