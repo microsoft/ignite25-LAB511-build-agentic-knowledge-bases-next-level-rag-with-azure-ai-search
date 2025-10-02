@@ -19,7 +19,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $workRoot        = "$env:USERPROFILE\Desktop\Lab511"
-$knowledgeFolder = Join-Path $workRoot "knowledge"
+$knowledgeFolder = Join-Path $workRoot "notebook"
 New-Item -ItemType Directory -Force -Path $workRoot,$knowledgeFolder | Out-Null
 
 # Write .env for notebook + helper
@@ -37,22 +37,23 @@ AZURE_OPENAI_KEY=$OpenAIKey
 AZURE_OPENAI_EMBEDDING_DEPLOYMENT=$EmbeddingDeployment
 AZURE_OPENAI_EMBEDDING_MODEL_NAME=text-embedding-3-large
 AZURE_OPENAI_CHATGPT_DEPLOYMENT=$ChatDeployment
-AZURE_OPENAI_CHATGPT_MODEL_NAME=gpt-5
+AZURE_OPENAI_CHATGPT_MODEL_NAME=gpt-5-mini
 
 AZURE_SEARCH_KNOWLEDGE_SOURCE=$KnowledgeSourceName
 AZURE_SEARCH_KNOWLEDGE_AGENT=$KnowledgeAgentName
 USE_VERBALIZATION=$UseVerbalization
 "@ | Set-Content -Path $envPath -Encoding UTF8
 
-# Optional: pull sample docs and upload via Storage SDK is handled by Python helper (container creation).
-if ($RepoZipUrl) {
-  try {
-    $repoZip = Join-Path $workRoot "repo.zip"
-    Invoke-WebRequest -Uri $RepoZipUrl -OutFile $repoZip -UseBasicParsing
-    Expand-Archive -Path $repoZip -DestinationPath $workRoot -Force
-    Remove-Item $repoZip -Force
-  } catch { Write-Warning "Repo download skipped: $($_.Exception.Message)" }
+# Path to the existing documents folder
+$docsPath = "C:\Lab511\data\ai-search-data"
+
+if (-not (Test-Path $docsPath)) {
+    throw "❌ Documents folder not found at $docsPath. Please check the path."
 }
+Write-Host "✅ Using existing documents at: $docsPath"
+
+# Pass this folder path to Python via environment variable (optional but handy)
+[System.Environment]::SetEnvironmentVariable("LOCAL_DOCS_PATH", $docsPath, "Process")
 
 # Prepare Python venv and run helper
 $reqLocal = Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "requirements.txt"
@@ -69,10 +70,10 @@ $venvPy = Join-Path $knowledgeFolder ".venv\Scripts\python.exe"
 & $venvPy -m pip install --upgrade pip
 & $venvPy -m pip install -r $reqLocal
 
-# Run: creates/updates Knowledge Source + Agent
+# Run the Python helper (creates/updates Knowledge Source + Agent)
 & $venvPy $pyLocal
 
 Pop-Location
 
-Write-Host "`n✅ Created/updated Knowledge Source '$KnowledgeSourceName' and Agent '$KnowledgeAgentName'."
-Write-Host "Notebook is ready to use the .env in $knowledgeFolder."
+Write-Host "`n✅ Knowledge Source '$KnowledgeSourceName' and Agent '$KnowledgeAgentName' created/updated successfully."
+Write-Host "📁 Notebook is ready. Env file: $knowledgeFolder\.env"
