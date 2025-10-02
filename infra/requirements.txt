@@ -1,0 +1,5 @@
+python-dotenv>=1.0.1
+azure-core>=1.30.0
+azure-identity>=1.17.1
+azure-search-documents>=11.7.0b5
+azure-storage-blob>=12.21.0
