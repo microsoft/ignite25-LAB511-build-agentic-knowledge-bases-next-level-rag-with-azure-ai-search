@@ -60,9 +60,9 @@ if (-not (Test-Path $reqLocal)) {
     throw "requirements.txt not found at $reqLocal" 
 }
 
-$pyLocal = Join-Path $infraFolder "upload-docs.py"
+$pyLocal = Join-Path $infraFolder "create-knowledge.py"
 if (-not (Test-Path $pyLocal)) { 
-    throw "upload-docs.py not found at $pyLocal" 
+    throw "create-knowledge.py not found at $pyLocal" 
 }
 
 # Change to repo root (where .env and .venv will be)
