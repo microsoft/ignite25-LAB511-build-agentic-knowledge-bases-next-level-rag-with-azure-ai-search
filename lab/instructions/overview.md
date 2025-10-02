@@ -1,6 +1,6 @@
 ## Overview
 
-In this hands-on lab, you will design and implement a **Knowledge Agent** — an intelligent retrieval system that can *retrieve, reason, and respond* over enterprise data using **agentic retrieval** in Azure AI Search. 
+In this hands-on lab, you will design and implement a **Knowledge Agent** that can *retrieve, reason, and respond* over enterprise data using **agentic retrieval** in Azure AI Search. 
 
 Unlike traditional search or basic RAG (Retrieval-Augmented Generation) approaches, a Knowledge Agent does far more than retrieve documents. It actively plans *how* and *where* to search, intelligently selects the most relevant data sources, and synthesizes grounded, citation-rich responses tailored to user intent. This new agentic approach turns static retrieval into a dynamic, adaptive process — capable of delivering deeper insights, more relevant answers, and greater reliability at scale.
 
