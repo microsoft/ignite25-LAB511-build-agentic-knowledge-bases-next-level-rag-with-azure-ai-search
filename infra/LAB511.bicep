@@ -67,7 +67,7 @@ var resourceNames = {
   searchService: '${resourcePrefix}-search-${uniqueSuffix}'
   searchIndex: '${resourcePrefix}-index'
   openAiService: '${resourcePrefix}-openai-${uniqueSuffix}'
-  embeddingDeployment: 'text-embedding'
+  embeddingDeployment: 'text-embedding-3-large'
   gpt5Deployment: 'gpt-5'
   gpt5MiniDeployment: 'gpt-5-mini'
 }
