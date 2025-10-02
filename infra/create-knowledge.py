@@ -41,7 +41,7 @@ async def ensure_container_exists():
                 await cc.create_container()
 
 async def upload_local_docs():
-    local_docs_path = os.getenv("LOCAL_DOCS_PATH", r"C:\Lab511\data\ai-search-data")  # default path
+    local_docs_path = os.getenv("LOCAL_DOCS_PATH", r"C:\LAB511\data\ai-search-data")  # default path
     if not os.path.exists(local_docs_path):
         print(f"⚠️ LOCAL_DOCS_PATH not found: {local_docs_path}, skipping upload.")
         return
