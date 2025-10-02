@@ -4,78 +4,94 @@ param(
   [Parameter(Mandatory=$true)][string]$OpenAIEndpoint,
   [Parameter(Mandatory=$true)][string]$OpenAIKey,
   [Parameter(Mandatory=$true)][string]$BlobConnectionString,
-
   [string]$BlobContainerName = "documents",
   [string]$EmbeddingDeployment = "text-embedding-3-large",
-  [string]$ChatDeployment = "gpt-5-mini",                 # ✅ updated default
+  [string]$ChatDeployment = "gpt-5-mini",
   [string]$KnowledgeSourceName = "blob-knowledge-source",
-  [string]$KnowledgeAgentName  = "blob-knowledge-agent",
+  [string]$KnowledgeAgentName = "blob-knowledge-agent",
   [ValidateSet("true","false")][string]$UseVerbalization = "false"
 )
 
 $ErrorActionPreference = "Stop"
 
-$workRoot        = "$env:USERPROFILE\Desktop\LAB511"
-$knowledgeFolder = Join-Path $workRoot "notebook"
-New-Item -ItemType Directory -Force -Path $workRoot,$knowledgeFolder | Out-Null
+$repoRoot = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main"
+$knowledgeFolder = Join-Path $repoRoot "notebook"
+$infraFolder = Join-Path $repoRoot "infra"
 
-# Write .env for notebook + helper
-$envPath = Join-Path $knowledgeFolder ".env"
-@"
+# Create .env content
+$envContent = @"
 AZURE_SEARCH_SERVICE_ENDPOINT=$SearchEndpoint
 AZURE_SEARCH_ADMIN_KEY=$SearchAdminKey
-
 BLOB_CONNECTION_STRING=$BlobConnectionString
 BLOB_CONTAINER_NAME=$BlobContainerName
 SEARCH_BLOB_DATASOURCE_CONNECTION_STRING=$BlobConnectionString
-
 AZURE_OPENAI_ENDPOINT=$OpenAIEndpoint
 AZURE_OPENAI_KEY=$OpenAIKey
 AZURE_OPENAI_EMBEDDING_DEPLOYMENT=$EmbeddingDeployment
 AZURE_OPENAI_EMBEDDING_MODEL_NAME=text-embedding-3-large
 AZURE_OPENAI_CHATGPT_DEPLOYMENT=$ChatDeployment
-AZURE_OPENAI_CHATGPT_MODEL_NAME=gpt-5-mini                 # ✅ match deployment
-
+AZURE_OPENAI_CHATGPT_MODEL_NAME=gpt-5-mini
 AZURE_SEARCH_KNOWLEDGE_SOURCE=$KnowledgeSourceName
 AZURE_SEARCH_KNOWLEDGE_AGENT=$KnowledgeAgentName
 USE_VERBALIZATION=$UseVerbalization
-"@ | Set-Content -Path $envPath -Encoding UTF8
+"@
 
-# Path to the existing documents folder
-$docsPath = "C:\LAB511\data\ai-search-data"
+# Write .env to repo root WITHOUT BOM
+$envPathRoot = Join-Path $repoRoot ".env"
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($envPathRoot, $envContent, $utf8NoBom)
+Write-Host "Created .env in repo root"
+
+# # Write .env to notebook folder WITHOUT BOM
+# $envPathNotebook = Join-Path $knowledgeFolder ".env"
+# [System.IO.File]::WriteAllText($envPathNotebook, $envContent, $utf8NoBom)
+# Write-Host "Created .env in notebook folder"
+
+$docsPath = Join-Path $repoRoot "data\ai-search-data"
 if (-not (Test-Path $docsPath)) {
-    throw "❌ Documents folder not found at $docsPath. Please check the path."
+    throw "Documents folder not found at $docsPath"
 }
-Write-Host "✅ Using existing documents at: $docsPath"
+Write-Host "Using existing documents at: $docsPath"
 
-# Pass to Python as env var
 [System.Environment]::SetEnvironmentVariable("LOCAL_DOCS_PATH", $docsPath, "Process")
 
-# Prepare Python venv and run helper
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$reqLocal  = Join-Path $scriptDir "requirements.txt"
-$pyLocal   = Join-Path $scriptDir "create_knowledge.py"
+$reqLocal = Join-Path $knowledgeFolder "requirements.txt"
+if (-not (Test-Path $reqLocal)) { 
+    throw "requirements.txt not found at $reqLocal" 
+}
 
-if (-not (Test-Path $reqLocal)) { throw "requirements.txt not found at $reqLocal" }
-if (-not (Test-Path $pyLocal))  { throw "create_knowledge.py not found at $pyLocal" }
+$pyLocal = Join-Path $infraFolder "upload-docs.py"
+if (-not (Test-Path $pyLocal)) { 
+    throw "upload-docs.py not found at $pyLocal" 
+}
 
-Push-Location $knowledgeFolder
+# Change to repo root (where .env and .venv will be)
+Push-Location $repoRoot
 
 $pythonCmd = (Get-Command python -ErrorAction SilentlyContinue)
 if (-not $pythonCmd) { $pythonCmd = (Get-Command py -ErrorAction SilentlyContinue) }
 if (-not $pythonCmd) { throw "Python 3.10+ is required." }
 
-python -m venv .venv
-$venvPy = Join-Path $knowledgeFolder ".venv\Scripts\python.exe"
+# Create venv in repo root
+if (-not (Test-Path ".venv")) {
+    Write-Host "Creating Python virtual environment in repo root..."
+    python -m venv .venv
+}
+
+$venvPy = Join-Path $repoRoot ".venv\Scripts\python.exe"
 if (-not (Test-Path $venvPy)) { throw "Venv python not found at $venvPy" }
 
+Write-Host "Installing Python dependencies..."
 & $venvPy -m pip install --upgrade pip --no-python-version-warning
 & $venvPy -m pip install -r $reqLocal --no-cache-dir --disable-pip-version-check
 
-# Run the Python helper (creates/updates Knowledge Source + Agent)
+Write-Host "Uploading documents to blob storage..."
 & $venvPy $pyLocal
 
 Pop-Location
 
-Write-Host "`n✅ Knowledge Source '$KnowledgeSourceName' and Agent '$KnowledgeAgentName' created/updated successfully."
-Write-Host "📁 Notebook is ready. Env file: $knowledgeFolder\.env"
+Write-Host ""
+Write-Host "Setup completed successfully!"
+Write-Host "Environment files created. Documents uploaded to blob storage."
+Write-Host ""Write-Host "Knowledge Source '$KnowledgeSourceName' created/updated successfully."
+Write-Host "Next: Open the notebook to create Knowledge Source and Agent."
