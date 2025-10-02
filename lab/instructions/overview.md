@@ -53,7 +53,7 @@ Once signed in to the Skillable environment, you’ll find the lab repository al
 
 ### Open the Project Folder in Your Development Environment
 
-Right-click the **LAB511** folder on your desktop and select **Open in Terminal**.
+Double-click on **LAB511** folder on your desktop. Then right-click to the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder and select **Open in Terminal**.
 
 Then run the following command to open the project in Visual Studio Code:
 
