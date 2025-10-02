@@ -55,24 +55,21 @@ All required Azure services including **Azure AI Search**, **OpenAI deployments*
 
 To confirm the environment is configured correctly:
 
-1. Open the **.env** file under the `notebook` folder.  
+1. Open the **.env** file under the **notebook** folder.  
 2. Verify that it includes all the key environment variables, such as *SEARCH_ENDPOINT*, *OPENAI_ENDPOINT*, and *INDEX_NAME*.
 
 If these variables are present, your environment is ready to use.
 
 ## Open the Jupyter Notebook
 
-1. Navigate to the `notebook` folder.  
-2. Open **`lab511-knowledge-agents.ipynb`**.
+1. Navigate to the **notebook** folder.  
+2. Open **lab511-knowledge-agents.ipynb**.
 
 The notebook is organized into thematic sections, each introducing a new capability of agentic retrieval and progressively building toward a fully functional Knowledge Agent. You’ll explore how query planning, multi-source retrieval, answer synthesis, and adaptive search all work together to deliver intelligent, enterprise-grade retrieval.
 
 ## Start the Lab
 
-All guided content and hands-on steps for this lab are contained inside the **lab511-knowledge-agents.ipynb** notebook.
-
-> [!IMPORTANT]  
-> **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
+All guided content and hands-on steps for this lab are contained inside the **lab511-knowledge-agents.ipynb** notebook. **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
 
 > [!TIP]  
 > If you need to sign in to Azure at any point during the lab, use the following credentials:  
