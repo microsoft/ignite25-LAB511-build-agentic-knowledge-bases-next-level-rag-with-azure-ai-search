@@ -1,28 +1,28 @@
 ## Before You Begin
 
-To complete this lab, you will need the credentials for the virtual machine (Windows) and Azure.
+In any point of time during the lab, if you need to sign in to the virtual machine (Windows) or any Azure or Microsoft 365 apps (M365 Copilot, SharePoint, Teams etc.), use the credentials provided below.
 
-### Sign into Windows
+### Sign into Virtual Machine (Windows)
 
 If you need to sign in the virtual machine, use the following credentials:
 
 - **User name**: +++@lab.VirtualMachine(Win11-Pro-Base).Username+++  
 - **Password**: +++@lab.VirtualMachine(Win11-Pro-Base).Password+++
 
-### Azure Sign-In Credentials
+### Sign into Azure & Microsoft 365
 
-If you need to sign in to Azure at any point during the lab, use the following credentials:  
+If you need to sign in to any Azure or Microsoft 365 apps, use the following credentials:
 
 - **Username**: +++@lab.CloudPortalCredential(User1).Username+++  
 - **Temporary Access Pass**: +++@lab.CloudPortalCredential(User1).AccessToken+++
 
 ## Overview
 
-In this hands-on lab, you will design and implement a **Knowledge Agent** that can *retrieve, reason, and respond* over enterprise data using **agentic retrieval** in Azure AI Search.
+In this hands-on lab, you will design and implement a **Knowledge Agent** that can retrieve, reason, and respond over enterprise data using **agentic retrieval** in Azure AI Search.
 
-Unlike traditional search or basic RAG (Retrieval-Augmented Generation) approaches, a Knowledge Agent does far more than retrieve documents. It actively plans *how* and *where* to search, intelligently selects the most relevant data sources, and synthesizes grounded, citation-rich responses tailored to user intent. This new agentic approach turns static retrieval into a dynamic, adaptive process that is capable of delivering deeper insights, more relevant answers, and greater reliability at scale.
+Unlike traditional search or basic RAG (Retrieval-Augmented Generation), a Knowledge Agent doesn’t just return documents, it plans how and where to search, chooses the most relevant knowledge sources, and uses an LLM to synthesize grounded, citation-backed responses tailored to the user’s intent. This agentic approach transforms retrieval into a dynamic, adaptive process capable of delivering deeper insights, more relevant answers, and higher-quality results.
 
-By the end of this lab, you will have built a production-ready Knowledge Agent capable of delivering context-rich, accurate, and explainable responses over enterprise data, forming the foundation for building custom copilots, enterprise assistants, and next-generation knowledge applications.
+By the end of this lab, you’ll have built a Knowledge Agent that provides context-aware, accurate, and explainable responses over enterprise data, forming a foundation you can extend into custom copilots, enterprise assistants, and intelligent knowledge applications.
 
 ### Learning Objectives
 
@@ -72,7 +72,7 @@ All required Azure services including **Azure AI Search**, **OpenAI deployments*
 To confirm the environment is configured correctly:
 
 1. Open the **.env** file under the main project folder.  
-2. Verify that it includes all the key environment variables, such as *SEARCH_ENDPOINT*, *OPENAI_ENDPOINT*, and *INDEX_NAME*.
+2. Verify that it includes all the key environment variables, such as *AZURE_SEARCH_SERVICE_ENDPOINT*, *AZURE_OPENAI_ENDPOINT*, and *BLOB_CONNECTION_STRING*.
 
 If these variables are present, your environment is ready to use.
 
