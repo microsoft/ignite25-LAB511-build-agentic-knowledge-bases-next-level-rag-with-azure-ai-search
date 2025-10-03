@@ -1,17 +1,17 @@
 ## Before You Begin
 
-To complete this lab, you will need the credentials for the virtual machine (Windows) and Azure.
+In any point of time during the lab, if you need to sign in to the virtual machine (Windows) or any Azure or Microsoft 365 apps (M365 Copilot, SharePoint, Teams etc.), use the credentials provided below.
 
-### Sign into Windows
+### Sign into Virtual Machine (Windows)
 
 If you need to sign in the virtual machine, use the following credentials:
 
 - **User name**: +++@lab.VirtualMachine(Win11-Pro-Base).Username+++  
 - **Password**: +++@lab.VirtualMachine(Win11-Pro-Base).Password+++
 
-### Azure & Microsoft 365 Sign-In Credentials
+### Sign into Azure & Microsoft 365
 
-If you need to sign in to Azure or any Microsoft 365 apps (M365 Copilot, SharePoint, Teams etc.) at any point during the lab, use the following credentials:  
+If you need to sign in to any Azure or Microsoft 365 apps, use the following credentials:
 
 - **Username**: +++@lab.CloudPortalCredential(User1).Username+++  
 - **Temporary Access Pass**: +++@lab.CloudPortalCredential(User1).AccessToken+++
