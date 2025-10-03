@@ -61,7 +61,9 @@ Then run the following command to open the project in Visual Studio Code:
 code .
 ```
 
-> When prompted whether to trust the authors of the files, select **Yes, I trust the authors**.
+> [!TIP]
+> * When prompted whether to trust the authors of the files, select **Yes, I trust the authors**.
+> * You may see pop-up message in VS Code **Dev Container prompt**. This appears when you first open the app folder. Select **Don’t Show Again** or close it, as you won’t be using a container in this lab.
 
 ### Verify the Environment Setup
 
