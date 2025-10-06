@@ -478,8 +478,8 @@ output uniqueSuffix string = uniqueSuffix
 //@description('GPT-5 model deployment name')
 //output gpt5DeploymentName string = gpt5ModelDeployment.name
 
-//@description('GPT-5 mini model deployment name')
-//output gpt5MiniDeploymentName string = gpt5MiniModelDeployment.name
+@description('GPT-5 mini model deployment name')
+output gpt5MiniDeploymentName string = gpt5MiniModelDeployment.name
 
 @description('Lab user object ID')
 output labUserObjectId string = labUserObjectId
