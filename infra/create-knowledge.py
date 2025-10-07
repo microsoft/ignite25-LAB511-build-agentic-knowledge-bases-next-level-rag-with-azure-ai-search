@@ -1,16 +1,18 @@
 import os
 import asyncio
 import glob
+import json
 from dotenv import load_dotenv
 from azure.core.credentials import AzureKeyCredential
-from azure.storage.blob.aio import BlobServiceClient
+from azure.search.documents.aio import SearchClient
 from azure.search.documents.indexes.aio import SearchIndexClient
 from azure.search.documents.indexes.models import (
     AzureBlobKnowledgeSource,
     AzureBlobKnowledgeSourceParameters,
     AzureOpenAIVectorizer,
     AzureOpenAIVectorizerParameters,
-    KnowledgeAgentAzureOpenAIModel
+    KnowledgeAgentAzureOpenAIModel,
+    SearchIndex
 )
 
 load_dotenv(override=True)
@@ -33,51 +35,31 @@ azure_openai_chatgpt_model_name = os.getenv("AZURE_OPENAI_CHATGPT_MODEL_NAME", "
 use_verbalization = os.getenv("USE_VERBALIZATION", "false").lower() == "true"
 
 
-async def ensure_container_exists():
-    async with BlobServiceClient.from_connection_string(blob_connection_string, logging_enable=False) as bsc:
-        container_client = bsc.get_container_client(blob_container_name)
-        if not await container_client.exists():
-            await container_client.create_container()
-            print(f"Created container: {blob_container_name}")
-        else:
-            print(f"Container exists: {blob_container_name}")
 
+async def restore_index(endpoint: str, index_name: str, index_file: str, records_file: str, azure_openai_endpoint: str, credential: AzureKeyCredential):
+    default_path = r"C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\index-data"
+    async with SearchIndexClient(endpoint=endpoint, credential=credential) as client:
+        with open(os.path.join(default_path, index_file), "r", encoding="utf-8") as in_file:
+            index_data = json.load(in_file)
+            index = SearchIndex.deserialize(index_data)
+            index.name = index_name
+            index.vector_search.vectorizers[0].parameters.resource_url = azure_openai_endpoint
+            await client.create_or_update_index(index)
 
-async def upload_local_docs():
-    default_path = r"C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\ai-search-data"
-    local_docs_path = os.getenv("LOCAL_DOCS_PATH", default_path)
-    
-    if not os.path.exists(local_docs_path):
-        print(f"Documents not found at: {local_docs_path}")
-        return
-    
-    print(f"Uploading documents from: {local_docs_path}")
-    async with BlobServiceClient.from_connection_string(blob_connection_string) as blob_service_client:
-        container_client = blob_service_client.get_container_client(blob_container_name)
-        
-        files = glob.glob(os.path.join(local_docs_path, "*"))
-        uploaded = 0
-        skipped = 0
-        
-        for file_path in files:
-            if not os.path.isfile(file_path):
-                continue
-            
-            blob_name = os.path.basename(file_path)
-            blob_client = container_client.get_blob_client(blob_name)
-            
-            try:
-                if not await blob_client.exists():
-                    with open(file_path, "rb") as f:
-                        await blob_client.upload_blob(f)
-                    print(f"Uploaded: {blob_name}")
-                    uploaded += 1
+    async with SearchClient(endpoint=endpoint, index_name=index_name, credential=credential) as client:
+        records = []
+        with open(os.path.join(default_path, records_file), "r", encoding="utf-8") as in_file:
+            for line in in_file:
+                record = json.loads(line)
+                if len(records) < 100:
+                    records.append(record)
                 else:
-                    skipped += 1
-            except Exception as e:
-                print(f"Failed to upload {blob_name}: {e}")
+                    await client.upload_documents(documents=records)
+                    records = []
         
-        print(f"Upload complete: {uploaded} uploaded, {skipped} skipped")
+        if records:
+            await client.upload_documents(documents=records)
+    print (f"✓ Index {index_name} restored using {index_file} and {records_file}")
 
 
 async def create_knowledge_source():
@@ -122,9 +104,8 @@ async def create_knowledge_source():
 
 async def main():
     try:
-        await ensure_container_exists()
-        await upload_local_docs()
-        await create_knowledge_source()
+        await restore_index(endpoint, "hrdocs", "index.json", "hrdocs-exported.jsonl", azure_openai_endpoint, credential)
+        await restore_index(endpoint, "healthdocs", "index.json", "healthdocs-exported.jsonl", azure_openai_endpoint, credential)
         print("\n✓ Setup completed!")
     except Exception as e:
         print(f"\n✗ Error: {e}")
