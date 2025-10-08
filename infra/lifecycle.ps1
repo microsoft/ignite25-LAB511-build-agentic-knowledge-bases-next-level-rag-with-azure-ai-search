@@ -48,60 +48,38 @@ az config set bicep.use_binary_from_path=false --only-show-errors
 $labUserUpn = "@lab.CloudPortalCredential(User1).Username"
 $labUserObjectId = az ad user show --id $labUserUpn --query id -o tsv
 
-az deployment group create `
+$outs = az deployment group create `
   --name $deploymentName `
   --resource-group $resourceGroupName `
   --template-file $bicepFilePath `
   --parameters labUserObjectId="$labUserObjectId" `
-  --only-show-errors
+  --only-show-errors `
+  --query properties.outputs -o json | ConvertFrom-Json
 
-# ===========================================
-# Setup and Create Knowledge Store
-# ===========================================
+# Pull values directly from outputs
+$storageName            = $outs.storageAccountName.value
+$blobEndpoint           = $outs.storageAccountPrimaryEndpoint.value
+$containerName          = $outs.documentsContainerName.value
+$searchName             = $outs.searchServiceName.value
+$searchEndpoint         = $outs.searchServiceEndpoint.value
+$openaiName             = $outs.openAiServiceName.value
+$openaiEndpoint         = $outs.openAiServiceEndpoint.value
+$embeddingDeployment    = $outs.embeddingDeploymentName.value
+$chatDeployment         = $outs.gpt5MiniDeploymentName.value
 
-$storage = az resource list -g $resourceGroupName --resource-type "Microsoft.Storage/storageAccounts" -o json | ConvertFrom-Json | Select-Object -First 1
-if (-not $storage) { throw "No Storage account found in $resourceGroupName." }
-$storageName = $storage.name
-
-$search = az resource list -g $resourceGroupName --resource-type "Microsoft.Search/searchServices" -o json | ConvertFrom-Json | Select-Object -First 1
-if (-not $search) { throw "No Azure AI Search service found in $resourceGroupName." }
-$searchName = $search.name
-
-$openai = az resource list -g $resourceGroupName --resource-type "Microsoft.CognitiveServices/accounts" -o json `
-  | ConvertFrom-Json | Where-Object { $_.kind -match "OpenAI" } | Select-Object -First 1
-if (-not $openai) { throw "No Azure OpenAI account found in $resourceGroupName." }
-$openaiName = $openai.name
-
-$searchRes = az resource show -g $resourceGroupName -n $searchName --resource-type "Microsoft.Search/searchServices" -o json | ConvertFrom-Json
-$searchHost = $searchRes.properties.hostname
-if (-not $searchHost) { $searchHost = "$searchName.search.windows.net" }
-$searchEndpoint = "https://$searchHost"
-
+# ===============================
+# Fetch secrets (kept out of deployment history)
+# ===============================
 $searchAdminKey = az rest --method POST `
   --url "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Search/searchServices/$searchName/listAdminKeys?api-version=2023-11-01" `
   --query primaryKey -o tsv
 
 $blobConnectionString = az storage account show-connection-string -n $storageName -g $resourceGroupName -o tsv
+$openaiKey            = az cognitiveservices account keys list -g $resourceGroupName -n $openaiName --query key1 -o tsv
 
-$openaiJson = az cognitiveservices account show -g $resourceGroupName -n $openaiName -o json | ConvertFrom-Json
-$openaiEndpoint = $openaiJson.properties.endpoint
-$openaiKey = az cognitiveservices account keys list -g $resourceGroupName -n $openaiName --query key1 -o tsv
-
-$deployments = az cognitiveservices account deployment list -g $resourceGroupName -n $openaiName -o json | ConvertFrom-Json
-$embeddingDeployment = ($deployments | Where-Object { $_.model.name -eq "text-embedding-3-large" } | Select-Object -First 1).name
-if (-not $embeddingDeployment) { $embeddingDeployment = "text-embedding-3-large" }
-
-$chatDeployment = ($deployments | Where-Object { $_.model.name -eq "gpt-5-mini" } | Select-Object -First 1).name
-if (-not $chatDeployment) { $chatDeployment = "gpt-5-mini" }
-
-$localInfraPath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra"
-$setupLocal = Join-Path $localInfraPath "setup-knowledge.ps1"
-
-if (-not (Test-Path $setupLocal)) {
-    throw "Setup file not found at: $setupLocal"
-}
-
-$docsPath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\ai-search-data"
+# ===============================
+# Run setup with output values
+# ===============================
 [Environment]::SetEnvironmentVariable("LOCAL_DOCS_PATH", $docsPath, "Process")
 
 powershell -ExecutionPolicy Bypass -File $setupLocal `
@@ -110,11 +88,9 @@ powershell -ExecutionPolicy Bypass -File $setupLocal `
   -OpenAIEndpoint $openaiEndpoint `
   -OpenAIKey $openaiKey `
   -BlobConnectionString $blobConnectionString `
-  -BlobContainerName "documents" `
+  -BlobContainerName $containerName `
   -EmbeddingDeployment $embeddingDeployment `
   -ChatDeployment $chatDeployment `
   -KnowledgeSourceName "blob-knowledge-source" `
   -KnowledgeAgentName "blob-knowledge-agent" `
   -UseVerbalization "false"
-
-Write-Host "Done."
