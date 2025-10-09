@@ -34,9 +34,9 @@ azure_openai_chatgpt_deployment = os.getenv("AZURE_OPENAI_CHATGPT_DEPLOYMENT", "
 azure_openai_chatgpt_model_name = os.getenv("AZURE_OPENAI_CHATGPT_MODEL_NAME", "gpt-5-mini")
 use_verbalization = os.getenv("USE_VERBALIZATION", "false").lower() == "true"
 
-def log(message):
-    """Print to stderr so it shows in Skillable lifecycle output"""
-    print(message, file=sys.stderr, flush=True)
+
+
+
 
 async def restore_index(endpoint: str, index_name: str, index_file: str, records_file: str, azure_openai_endpoint: str, credential: AzureKeyCredential):
     default_path = r"C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\index-data"
@@ -45,18 +45,18 @@ async def restore_index(endpoint: str, index_name: str, index_file: str, records
             index_data = json.load(in_file)
             index = SearchIndex.deserialize(index_data)
             index.name = index_name
-            
-            # FIX: Make vectorizer name unique per index
-            if index.vector_search and index.vector_search.vectorizers:
-                for vectorizer in index.vector_search.vectorizers:
-                    vectorizer.vectorizer_name = f"{index_name}-vectorizer"
-                    vectorizer.parameters.resource_url = azure_openai_endpoint
-            
-            # Update vector profiles to reference the unique vectorizer name
-            if index.vector_search and index.vector_search.profiles:
-                for profile in index.vector_search.profiles:
-                    profile.vectorizer_name = f"{index_name}-vectorizer"
-            
+            index.vector_search.vectorizers[0].parameters.resource_url = azure_openai_endpoint
+
+
+
+
+
+
+
+
+
+
+
             await client.create_or_update_index(index)
 
     async with SearchClient(endpoint=endpoint, index_name=index_name, credential=credential) as client:
@@ -69,7 +69,7 @@ async def restore_index(endpoint: str, index_name: str, index_file: str, records
                 else:
                     await client.upload_documents(documents=records)
                     records = []
-        
+
         if records:
             await client.upload_documents(documents=records)
     print (f"✓ Index {index_name} restored using {index_file} and {records_file}")
@@ -77,7 +77,7 @@ async def restore_index(endpoint: str, index_name: str, index_file: str, records
 
 async def create_knowledge_source():
     print("\nCreating Knowledge Source and triggering indexing...")
-    
+
     chat_model = KnowledgeAgentAzureOpenAIModel(
         azure_open_ai_parameters=AzureOpenAIVectorizerParameters(
             resource_url=azure_openai_endpoint,
@@ -86,7 +86,7 @@ async def create_knowledge_source():
             model_name=azure_openai_chatgpt_model_name
         )
     )
-    
+
     knowledge_source = AzureBlobKnowledgeSource(
         name=knowledge_source_name,
         azure_blob_parameters=AzureBlobKnowledgeSourceParameters(
@@ -105,7 +105,7 @@ async def create_knowledge_source():
             disable_image_verbalization=(not use_verbalization),
         ),
     )
-    
+
     async with SearchIndexClient(endpoint=endpoint, credential=credential) as client:
         print(f"Creating/updating Knowledge Source: {knowledge_source.name}")
         result = await client.create_or_update_knowledge_source(knowledge_source)
@@ -117,20 +117,15 @@ async def create_knowledge_source():
 
 async def main():
     try:
-        log("Creating hrdocs index...")
+
         await restore_index(endpoint, "hrdocs", "index.json", "hrdocs-exported.jsonl", azure_openai_endpoint, credential)
-        
-        log("Waiting 10 seconds before creating healthdocs index...")
-        await asyncio.sleep(10)
-        
-        log("Creating healthdocs index...")
         await restore_index(endpoint, "healthdocs", "index.json", "healthdocs-exported.jsonl", azure_openai_endpoint, credential)
-        
-        log("\nSUCCESS: Setup completed!")
+        print("\n✓ Setup completed!")
+
     except Exception as e:
-        log(f"\nERROR: {e}")
+        print(f"\n✗ Error: {e}")
         import traceback
-        traceback.print_exc(file=sys.stderr)
+        traceback.print_exc()
         raise
 
 
