@@ -105,6 +105,7 @@ async def create_knowledge_source():
 async def main():
     try:
         await restore_index(endpoint, "hrdocs", "index.json", "hrdocs-exported.jsonl", azure_openai_endpoint, credential)
+        await asyncio.sleep(3)
         await restore_index(endpoint, "healthdocs", "index.json", "healthdocs-exported.jsonl", azure_openai_endpoint, credential)
         print("\n✓ Setup completed!")
     except Exception as e:
