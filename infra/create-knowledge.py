@@ -34,10 +34,6 @@ azure_openai_chatgpt_deployment = os.getenv("AZURE_OPENAI_CHATGPT_DEPLOYMENT", "
 azure_openai_chatgpt_model_name = os.getenv("AZURE_OPENAI_CHATGPT_MODEL_NAME", "gpt-5-mini")
 use_verbalization = os.getenv("USE_VERBALIZATION", "false").lower() == "true"
 
-
-
-
-
 async def restore_index(endpoint: str, index_name: str, index_file: str, records_file: str, azure_openai_endpoint: str, credential: AzureKeyCredential):
     default_path = r"C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\index-data"
     async with SearchIndexClient(endpoint=endpoint, credential=credential) as client:
@@ -46,17 +42,6 @@ async def restore_index(endpoint: str, index_name: str, index_file: str, records
             index = SearchIndex.deserialize(index_data)
             index.name = index_name
             index.vector_search.vectorizers[0].parameters.resource_url = azure_openai_endpoint
-
-
-
-
-
-
-
-
-
-
-
             await client.create_or_update_index(index)
 
     async with SearchClient(endpoint=endpoint, index_name=index_name, credential=credential) as client:
@@ -115,17 +100,27 @@ async def create_knowledge_source():
         print("\nNext: Open the notebook to create the Knowledge Agent.")
 
 
+import traceback
+
+LOG_FILE = r"C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra\errorlog.txt"
+
 async def main():
     try:
-
         await restore_index(endpoint, "hrdocs", "index.json", "hrdocs-exported.jsonl", azure_openai_endpoint, credential)
         await restore_index(endpoint, "healthdocs", "index.json", "healthdocs-exported.jsonl", azure_openai_endpoint, credential)
         print("\n✓ Setup completed!")
 
     except Exception as e:
         print(f"\n✗ Error: {e}")
-        import traceback
-        traceback.print_exc()
+        error_details = traceback.format_exc()
+
+        # Append the error details to the log file
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(str(e) + "\n")
+            f.write(error_details)
+            f.write("\n--- END ERROR LOG ---\n")
+
+        # Re-raise if you still want the script to fail
         raise
 
 
