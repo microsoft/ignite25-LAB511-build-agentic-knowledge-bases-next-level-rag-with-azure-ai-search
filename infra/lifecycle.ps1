@@ -21,10 +21,6 @@ Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
 
 Write-Host "Repository downloaded and extracted to: $extractPath"
 
-# ===========================================
-# Run Bicep Deployment and Provision Resources
-# ===========================================
-
 $clientId = "@lab.CloudSubscription.AppId"
 $clientSecret = "@lab.CloudSubscription.AppSecret"
 $tenantId = "@lab.CloudSubscription.TenantId"
@@ -80,6 +76,16 @@ $openaiKey            = az cognitiveservices account keys list -g $resourceGroup
 # ===============================
 # Run setup with output values
 # ===============================
+
+$localInfraPath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra"
+$setupLocal = Join-Path $localInfraPath "setup-knowledge.ps1"
+
+if (-not (Test-Path $setupLocal)) {
+    throw "Setup file not found at: $setupLocal"
+}
+
+$docsPath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\ai-search-data"
+
 [Environment]::SetEnvironmentVariable("LOCAL_DOCS_PATH", $docsPath, "Process")
 
 powershell -ExecutionPolicy Bypass -File $setupLocal `
