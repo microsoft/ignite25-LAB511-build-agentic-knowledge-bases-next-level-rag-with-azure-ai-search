@@ -47,13 +47,13 @@ In the virtual machine, sign into Windows using the following credentials:
 
 ### Access the Lab Repository
 
-Once signed in to the Skillable environment, you’ll find the lab repository already cloned on your desktop under the folder: **Desktop > LAB511**.
+Once signed in to the Skillable environment, you’ll find the lab repository already cloned on your desktop under the folder: **Desktop > ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main**.
 
 > This folder contains all the code, notebooks, and resources you’ll need for the lab.
 
-### Open the Project Folder in Your Development Environment
+### Open the Project Folder in Visual Studio Code
 
-Double-click on **LAB511** folder on your desktop. Then right-click to the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder and select **Open in Terminal**.
+Right-click to the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder in your Desktop and select **Open in Terminal**.
 
 Then run the following command to open the project in Visual Studio Code:
 
@@ -93,7 +93,7 @@ If these variables are present, proceed to verify the indexes in Azure Portal.
 
 Let's confirm that the search indexes have been created successfully:
 
-1. Open a web browser and navigate to the [Azure Portal](https://portal.azure.com).
+1. Open a web browser and navigate to the +++https://portal.azure.com+++.
 2. Sign in using your lab credentials:
     - **Username**: +++@lab.CloudPortalCredential(User1).Username+++  
     - **Temporary Access Pass**: +++@lab.CloudPortalCredential(User1).AccessToken+++
