@@ -53,13 +53,7 @@ Once signed in to the Skillable environment, you’ll find the lab repository al
 
 ### Open the Project Folder in Visual Studio Code
 
-Right-click to the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder in your Desktop and select **Open in Terminal**.
-
-Then run the following command to open the project in Visual Studio Code:
-
-```powershell
-code .
-```
+Open Visual Studio Code and select **File > Open Folder**. Then navigate to Desktop and select the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder and then **Select Folder**.
 
 > [!TIP]
 > * When prompted whether to trust the authors of the files, select **Yes, I trust the authors**.
@@ -71,21 +65,15 @@ All required Azure services including **Azure AI Search with pre-indexed data** 
 
 **What's Pre-Configured:**
 - **Azure AI Search** - Standard tier with two pre-created indexes:
-  - *hrdocs* (50 documents): HR policies, employee handbook, role library, company overview
-  - *healthdocs* (334 documents): Health insurance plans, benefits options, coverage details
-- **Azure OpenAI** - Deployed models:
-  - *gpt-5-mini* for chat completion and answer synthesis
-  - *text-embedding-3-large* for vector embeddings
+  - **hrdocs (50 documents):** HR policies, employee handbook, role library, company overview
+  - **healthdocs (334 documents):** Health insurance plans, benefits options, coverage details
+- **Azure OpenAI** - Deployed models **gpt-5-mini** for chat completion and answer synthesis and **text-embedding-3-large** for vector embeddings
 - **Pre-computed vectors** - All 384 documents are already vectorized and indexed
 
 #### Verify Environment Variables
 
 1. Open the **.env** file under the main project folder.  
-2. Verify that it includes the key environment variables:
-   - *AZURE_SEARCH_SERVICE_ENDPOINT*
-   - *AZURE_SEARCH_ADMIN_KEY*
-   - *AZURE_OPENAI_ENDPOINT*
-   - *AZURE_OPENAI_KEY*
+2. Verify that it includes the key environment variables *AZURE_SEARCH_SERVICE_ENDPOINT*, *AZURE_SEARCH_ADMIN_KEY*, *AZURE_OPENAI_ENDPOINT*, and *AZURE_OPENAI_KEY*.
 
 If these variables are present, proceed to verify the indexes in Azure Portal.
 
@@ -97,7 +85,7 @@ Let's confirm that the search indexes have been created successfully:
 2. Sign in using your lab credentials:
     - **Username**: +++@lab.CloudPortalCredential(User1).Username+++  
     - **Temporary Access Pass**: +++@lab.CloudPortalCredential(User1).AccessToken+++
-3. In the Azure Portal search bar at the top, search for +++AI Search+++ and select your AI Search service (it will start with *lab511-search-*).
+3. In the Azure Portal search bar at the top, search for +++lab511-search+++ and select your AI Search service (it will look like *lab511-search-.....*).
 4. In the left navigation menu, select **Search management** > **Indexes**.
 5. You should see two indexes:
    - **hrdocs** - Should show approximately 50 documents
