@@ -19,11 +19,11 @@
 
 
 # Project information .........................................
-site_name: "LAB511: Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search"
+site_name: "Build Agentic Knowledge Bases: Next-Level RAG with Azure AI Search"
 site_url: 
 site_author: Ayca Bas
 site_description: >-
-  Build a Knowledge Agent using agentic RAG, the next evolution of retrieval in Azure AI Search
+  Build a Knowledge Base using agentic RAG, the next evolution of retrieval in Azure AI Search
 
 # Repository ..................................................
 repo_name: microsoft/ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search

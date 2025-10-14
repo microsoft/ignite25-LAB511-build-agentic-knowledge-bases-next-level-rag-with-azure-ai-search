@@ -18,17 +18,17 @@ If you need to sign in to any Azure or Microsoft 365 apps, use the following cre
 
 ## Overview
 
-In this hands-on lab, you will design and implement a **Knowledge Agent** that can retrieve, reason, and respond over enterprise data using **agentic retrieval** in Azure AI Search.
+In this hands-on lab, you will design and implement a **Knowledge Base** that can retrieve, reason, and respond over enterprise data using **agentic retrieval** in Azure AI Search.
 
-Unlike traditional search or basic RAG (Retrieval-Augmented Generation), a Knowledge Agent doesn’t just return documents, it plans how and where to search, chooses the most relevant knowledge sources, and uses an LLM to synthesize grounded, citation-backed responses tailored to the user’s intent. This agentic approach transforms retrieval into a dynamic, adaptive process capable of delivering deeper insights, more relevant answers, and higher-quality results.
+Unlike traditional search or basic RAG (Retrieval-Augmented Generation), an Agentic Knowledge Base doesn’t just return documents, it plans how and where to search, chooses the most relevant knowledge sources, and uses an LLM to synthesize grounded, citation-backed responses tailored to the user’s intent. This agentic approach transforms retrieval into a dynamic, adaptive process capable of delivering deeper insights, more relevant answers, and higher-quality results.
 
-By the end of this lab, you’ll have built a Knowledge Agent that provides context-aware, accurate, and explainable responses over enterprise data, forming a foundation you can extend into custom copilots, enterprise assistants, and intelligent knowledge applications.
+By the end of this lab, you’ll have built an Agentic Knowledge Base that provides context-aware, accurate, and explainable responses over enterprise data, forming a foundation you can extend into custom copilots, enterprise assistants, and intelligent knowledge applications.
 
 ### Learning Objectives
 
 By completing this lab, you will be able to:
 
-- Design and build a **Knowledge Agent** that uses agentic retrieval to retrieve, reason, and respond over enterprise data.  
+- Design and build a **Knowledge Base** that uses agentic retrieval to retrieve, reason, and respond over enterprise data.  
 - Implement **smart source selection** to intelligently connect and query multiple indexes and data sources.  
 - Enhance **query planning** with natural language instructions and retrieval guidance.  
 - Generate **grounded, citation-backed responses** using answer synthesis or extractive techniques.  
@@ -81,10 +81,10 @@ If these variables are present, your environment is ready to use.
 1. Navigate to the **notebook** folder.  
 2. Open **lab511-knowledge-agents.ipynb**.
 
-The notebook is organized into thematic sections, each introducing a new capability of agentic retrieval and progressively building toward a fully functional Knowledge Agent. You’ll explore how query planning, multi-source retrieval, answer synthesis, and adaptive search all work together to deliver intelligent, enterprise-grade retrieval.
+The notebook is organized into thematic sections, each introducing a new capability of agentic retrieval and progressively building toward a fully functional Knowledge Base. You’ll explore how query planning, multi-source retrieval, answer synthesis, and adaptive search all work together to deliver intelligent, enterprise-grade retrieval.
 
-### Start Building Your Knowledge Agent
+### Start Building Your Agentic Knowledge Base
 
 All guided content and hands-on steps for this lab are contained inside the **lab511-knowledge-agents.ipynb** notebook. **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
 
-Once you’ve completed the full notebook experience and built your Knowledge Agent, return to this page and select **Next >** to view the summary page, where you’ll review key takeaways, architectural patterns, and recommended next steps for applying what you’ve learned.
+Once you’ve completed the full notebook experience and built your Agentic Knowledge Base, return to this page and select **Next >** to view the summary page, where you’ll review key takeaways, architectural patterns, and recommended next steps for applying what you’ve learned.

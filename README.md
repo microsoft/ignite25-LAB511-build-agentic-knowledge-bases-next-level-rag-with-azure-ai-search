@@ -4,20 +4,20 @@
 
 # [Microsoft Ignite 2025](https://ignite.microsoft.com)
 
-## 🔥LAB511: Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search
+## 🔥LAB511: Build Agentic Knowledge Bases: Next-Level RAG with Azure AI Search
 
 [![Microsoft Azure AI Foundry Discord](https://dcbadge.limes.pink/api/server/ByRwuEEgH4)](https://discord.com/invite/ByRwuEEgH4)
 [![Azure AI Foundry Developer Forum](https://img.shields.io/badge/GitHub-Azure_AI_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=adff2f&logoColor=fff)](https://aka.ms/foundry/forum)
 
 ### Session Description
 
-In this hands-on lab, you’ll build a Knowledge Agent using agentic RAG, the next evolution of retrieval in Azure AI Search. Connect your agentic retrieval engine to your data through smart source selection across multiple indexes and storage systems. Learn how to enhance planning using natural language guidance and generate grounded responses with citations or extractive answers tailored to your use case. By the end, you’ll have a fully functional Knowledge Agent responds over enterprise data.
+In this hands-on lab, you’ll build a Knowledge Base using agentic RAG, the next evolution of retrieval in Azure AI Search. Connect your agentic retrieval engine to your data through smart source selection across multiple indexes and storage systems. Learn how to enhance planning using natural language guidance and generate grounded responses with citations or extractive answers tailored to your use case. By the end, you’ll have a fully functional Agentic Knowledge Base responds over enterprise data.
 
 ### 🧠 Learning Outcomes
 
 By the end of this session, learners will be able to:
 
-- Design and build a Knowledge Agent that uses agentic RAG to retrieve, reason, and respond over enterprise data.
+- Design and build a Knowledge Base that uses agentic RAG to retrieve, reason, and respond over enterprise data.
 - Implement smart source selection to connect and query multiple indexes and data sources intelligently.
 - Use natural language guidance to enhance query planning and generate grounded, citation-rich, or extractive responses tailored to business needs.
 

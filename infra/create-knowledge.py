@@ -97,7 +97,7 @@ async def create_knowledge_source():
         print(f"✓ Knowledge Source created: {result.name}")
         print("\nIndexing started. This may take a few minutes.")
         print("Check Azure Portal > AI Search > Indexers for status.")
-        print("\nNext: Open the notebook to create the Knowledge Agent.")
+        print("\nNext: Open the notebook to create the Agentic Knowledge Base.")
 
 
 import traceback
