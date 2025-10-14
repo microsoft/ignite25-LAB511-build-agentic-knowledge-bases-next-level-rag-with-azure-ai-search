@@ -67,24 +67,61 @@ code .
 
 ### Verify the Environment Setup
 
-All required Azure services including **Azure AI Search**, **OpenAI deployments**, and **storage accounts** have already been provisioned for you.
+All required Azure services including **Azure AI Search with pre-indexed data** and **Azure OpenAI deployments** have already been provisioned for you.
 
-To confirm the environment is configured correctly:
+**What's Pre-Configured:**
+- **Azure AI Search** - Standard tier with two pre-created indexes:
+  - `hrdocs` (50 documents): HR policies, employee handbook, role library, company overview
+  - `healthdocs` (334 documents): Health insurance plans, benefits options, coverage details
+- **Azure OpenAI** - Deployed models:
+  - `gpt-5-mini` for chat completion and answer synthesis
+  - `text-embedding-3-large` for vector embeddings
+- **Pre-computed vectors** - All 384 documents are already vectorized and indexed
+
+#### Verify Environment Variables
 
 1. Open the **.env** file under the main project folder.  
-2. Verify that it includes all the key environment variables, such as *AZURE_SEARCH_SERVICE_ENDPOINT*, *AZURE_OPENAI_ENDPOINT*, and *BLOB_CONNECTION_STRING*.
+2. Verify that it includes the key environment variables:
+   - `AZURE_SEARCH_SERVICE_ENDPOINT`
+   - `AZURE_SEARCH_ADMIN_KEY`
+   - `AZURE_OPENAI_ENDPOINT`
+   - `AZURE_OPENAI_KEY`
 
-If these variables are present, your environment is ready to use.
+If these variables are present, proceed to verify the indexes in Azure Portal.
+
+#### Verify Indexes in Azure Portal
+
+Let's confirm that the search indexes have been created successfully:
+
+1. Open a web browser and navigate to the [Azure Portal](https://portal.azure.com).
+2. Sign in using your lab credentials:
+    - **Username**: +++@lab.CloudPortalCredential(User1).Username+++  
+    - **Temporary Access Pass**: +++@lab.CloudPortalCredential(User1).AccessToken+++
+3. In the Azure Portal search bar at the top, search for +++AI Search+++ and select your AI Search service (it will start with *lab511-search-*).
+4. In the left navigation menu, select **Search management** > **Indexes**.
+5. You should see two indexes:
+   - **hrdocs** - Should show approximately 50 documents
+   - **healthdocs** - Should show approximately 334 documents
+
+> **✅ Checkpoint:** If you see both indexes with document counts, your environment is ready! If the indexes are missing or empty, please notify your instructor.
+
+If your indexes are present and populated, your environment is ready to use. You can now proceed to open the Jupyter Notebook.
 
 ### Open the Jupyter Notebook
 
 1. Navigate to the **notebook** folder.  
-2. Open **lab511-knowledge-agents.ipynb**.
+2. Open **lab511-agentic-knowledge-bases.ipynb**.
 
-The notebook is organized into thematic sections, each introducing a new capability of agentic retrieval and progressively building toward a fully functional Knowledge Base. You’ll explore how query planning, multi-source retrieval, answer synthesis, and adaptive search all work together to deliver intelligent, enterprise-grade retrieval.
+The notebook is organized into progressive sections, each building toward a fully functional Knowledge Agent. You'll explore:
+
+- **Knowledge Sources** - Connecting to pre-indexed search collections
+- **Knowledge Base Creation** - Configuring the orchestration layer with Azure OpenAI
+- **Agentic Retrieval** - Query decomposition, multi-source search, and semantic reranking
+- **Answer Synthesis** - Generating grounded responses with citations
+- **Activity Inspection** - Understanding the agent's reasoning process
 
 ### Start Building Your Agentic Knowledge Base
 
-All guided content and hands-on steps for this lab are contained inside the **lab511-knowledge-agents.ipynb** notebook. **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
+All guided content and hands-on steps for this lab are contained inside the **lab511-agentic-knowledge-bases.ipynb** notebook. **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
 
 Once you’ve completed the full notebook experience and built your Agentic Knowledge Base, return to this page and select **Next >** to view the summary page, where you’ll review key takeaways, architectural patterns, and recommended next steps for applying what you’ve learned.
