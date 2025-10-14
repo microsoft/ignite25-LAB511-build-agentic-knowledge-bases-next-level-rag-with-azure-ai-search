@@ -5,8 +5,8 @@
 # Set variables
 $repoUrl = "https://github.com/microsoft/ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search"
 $zipUrl = "$repoUrl/archive/refs/heads/main.zip"
-$downloadPath = "$env:USERPROFILE\Desktop\LAB511.zip"
-$extractPath = "$env:USERPROFILE\Desktop\LAB511"
+$downloadPath = "$env:USERPROFILE\Downloads\LAB511.zip"
+$extractPath = "$env:USERPROFILE\Desktop"
 
 # Download the ZIP file from GitHub
 Invoke-WebRequest -Uri $zipUrl -OutFile $downloadPath -UseBasicParsing
@@ -32,7 +32,7 @@ az account set -s $subscriptionId --only-show-errors
 $resourceGroupName = "@lab.CloudResourceGroup(LAB511-ResourceGroup).Name"
 $deploymentName = "deployment"
 
-$bicepFilePath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra\LAB511.bicep"
+$bicepFilePath = "C:\Users\LabUser\Desktop\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra\LAB511.bicep"
 
 if (-not (Test-Path $bicepFilePath)) {
     throw "Bicep file not found at: $bicepFilePath"
@@ -77,14 +77,14 @@ $openaiKey            = az cognitiveservices account keys list -g $resourceGroup
 # Run setup with output values
 # ===============================
 
-$localInfraPath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra"
+$localInfraPath = "C:\Users\LabUser\Desktop\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra"
 $setupLocal = Join-Path $localInfraPath "setup-knowledge.ps1"
 
 if (-not (Test-Path $setupLocal)) {
     throw "Setup file not found at: $setupLocal"
 }
 
-$docsPath = "C:\Users\LabUser\Desktop\LAB511\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\ai-search-data"
+$docsPath = "C:\Users\LabUser\Desktop\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\ai-search-data"
 
 [Environment]::SetEnvironmentVariable("LOCAL_DOCS_PATH", $docsPath, "Process")
 

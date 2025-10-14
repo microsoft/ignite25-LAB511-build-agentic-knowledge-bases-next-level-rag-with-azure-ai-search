@@ -47,13 +47,13 @@ In the virtual machine, sign into Windows using the following credentials:
 
 ### Access the Lab Repository
 
-Once signed in to the Skillable environment, you’ll find the lab repository already cloned on your desktop under the folder: **Desktop > LAB511**.
+Once signed in to the Skillable environment, you’ll find the lab repository already cloned on your desktop under the folder: **Desktop > ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main**.
 
 > This folder contains all the code, notebooks, and resources you’ll need for the lab.
 
-### Open the Project Folder in Your Development Environment
+### Open the Project Folder in Visual Studio Code
 
-Double-click on **LAB511** folder on your desktop. Then right-click to the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder and select **Open in Terminal**.
+Right-click to the **ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main** folder in your Desktop and select **Open in Terminal**.
 
 Then run the following command to open the project in Visual Studio Code:
 
