@@ -81,28 +81,28 @@ async def restore_index(endpoint: str, index_name: str, index_file: str, records
                 await client.upload_documents(documents=records)
                 total_uploaded += len(records)
         
-        log_message(f"[{index_name}] ✓ SUCCESS - Index restored! Total documents uploaded: {total_uploaded}")
-        print(f"✓ Index {index_name} restored using {index_file} and {records_file}")
+        log_message(f"[{index_name}] SUCCESS - Index restored! Total documents uploaded: {total_uploaded}")
+        print(f"Index {index_name} restored using {index_file} and {records_file}")
         return True
         
     except FileNotFoundError as e:
-        error_msg = f"[{index_name}] ✗ ERROR - File not found: {e}"
+        error_msg = f"[{index_name}] ERROR - File not found: {e}"
         log_message(error_msg)
         log_message(f"[{index_name}] Traceback:\n{traceback.format_exc()}")
-        print(f"✗ Index {index_name} failed - see log file for details")
+        print(f"Index {index_name} failed - see log file for details")
         return False
     except PermissionError as e:
-        error_msg = f"[{index_name}] ✗ ERROR - Permission denied: {e}"
+        error_msg = f"[{index_name}] ERROR - Permission denied: {e}"
         log_message(error_msg)
         log_message(f"[{index_name}] This indicates insufficient permissions for the service principal")
         log_message(f"[{index_name}] Traceback:\n{traceback.format_exc()}")
-        print(f"✗ Index {index_name} failed - see log file for details")
+        print(f"Index {index_name} failed - see log file for details")
         return False
     except Exception as e:
-        error_msg = f"[{index_name}] ✗ ERROR - {type(e).__name__}: {str(e)}"
+        error_msg = f"[{index_name}] ERROR - {type(e).__name__}: {str(e)}"
         log_message(error_msg)
         log_message(f"[{index_name}] Traceback:\n{traceback.format_exc()}")
-        print(f"✗ Index {index_name} failed - see log file for details")
+        print(f"Index {index_name} failed - see log file for details")
         return False
 
 
@@ -150,14 +150,14 @@ async def main():
     success_count = sum(1 for v in results.values() if v)
     
     for index_name, success in results.items():
-        status = "✓ SUCCESS" if success else "✗ FAILED"
+        status = "SUCCESS" if success else " FAILED"
         log_message(f"{status}: {index_name}")
     
     if success_count == len(results):
-        log_message("\n✓ All indexes created successfully!")
-        print("\n✓ Setup completed!")
+        log_message("\n All indexes created successfully!")
+        print("\n Setup completed!")
     else:
-        log_message(f"\n⚠ WARNING: {len(results) - success_count} index(es) failed to create.")
+        log_message(f"\n WARNING: {len(results) - success_count} index(es) failed to create.")
         log_message("\nPossible causes when using service principal:")
         log_message("  1. Insufficient Azure RBAC permissions on the AI Search service")
         log_message("  2. Missing 'Search Service Contributor' or 'Search Index Data Contributor' role")
@@ -170,7 +170,7 @@ async def main():
         log_message("  - Check Azure OpenAI access permissions")
         log_message("  - Review detailed error messages above in this log file")
         
-        print(f"\n⚠ Setup completed with errors. Check log file: {LOG_FILE}")
+        print(f"\n Setup completed with errors. Check log file: {LOG_FILE}")
     
     log_message("="*80)
     log_message("Script execution completed")
