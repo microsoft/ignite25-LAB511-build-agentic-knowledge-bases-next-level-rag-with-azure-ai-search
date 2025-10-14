@@ -110,7 +110,7 @@ If your indexes are present and populated, your environment is ready to use. You
 ### Open the Jupyter Notebook
 
 1. Navigate to the **notebook** folder.  
-2. Open **lab511-knowledge-agents.ipynb**.
+2. Open **lab511-agentic-knowledge-bases.ipynb**.
 
 The notebook is organized into progressive sections, each building toward a fully functional Knowledge Agent. You'll explore:
 
@@ -122,6 +122,6 @@ The notebook is organized into progressive sections, each building toward a full
 
 ### Start Building Your Agentic Knowledge Base
 
-All guided content and hands-on steps for this lab are contained inside the **lab511-knowledge-agents.ipynb** notebook. **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
+All guided content and hands-on steps for this lab are contained inside the **lab511-agentic-knowledge-bases.ipynb** notebook. **Begin your work directly in the Jupyter Notebook.** Follow the guided sections in order, executing the provided code cells and reviewing the explanations along the way.
 
 Once you’ve completed the full notebook experience and built your Agentic Knowledge Base, return to this page and select **Next >** to view the summary page, where you’ll review key takeaways, architectural patterns, and recommended next steps for applying what you’ve learned.

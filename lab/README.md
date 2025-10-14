@@ -22,7 +22,7 @@ To get the most out of this lab, you should have a basic understanding of the fo
 
 ## Get Started
 
-To begin, follow the instructions in the **lab511-knowledge-agents.ipynb** notebook provided in your lab environment.  
+To begin, follow the instructions in the **lab511-agentic-knowledge-bases.ipynb** notebook provided in your lab environment.  
 
 This notebook contains all the guided content, code examples, and explanations you’ll need to build and understand a fully functional Agentic Knowledge Base. Make sure to run each cell in order and read the accompanying explanations carefully. The notebook is designed to be a complete, step-by-step learning experience.
 
