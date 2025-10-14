@@ -71,21 +71,21 @@ All required Azure services including **Azure AI Search with pre-indexed data** 
 
 **What's Pre-Configured:**
 - **Azure AI Search** - Standard tier with two pre-created indexes:
-  - `hrdocs` (50 documents): HR policies, employee handbook, role library, company overview
-  - `healthdocs` (334 documents): Health insurance plans, benefits options, coverage details
+  - *hrdocs* (50 documents): HR policies, employee handbook, role library, company overview
+  - *healthdocs* (334 documents): Health insurance plans, benefits options, coverage details
 - **Azure OpenAI** - Deployed models:
-  - `gpt-5-mini` for chat completion and answer synthesis
-  - `text-embedding-3-large` for vector embeddings
+  - *gpt-5-mini* for chat completion and answer synthesis
+  - *text-embedding-3-large* for vector embeddings
 - **Pre-computed vectors** - All 384 documents are already vectorized and indexed
 
 #### Verify Environment Variables
 
 1. Open the **.env** file under the main project folder.  
 2. Verify that it includes the key environment variables:
-   - `AZURE_SEARCH_SERVICE_ENDPOINT`
-   - `AZURE_SEARCH_ADMIN_KEY`
-   - `AZURE_OPENAI_ENDPOINT`
-   - `AZURE_OPENAI_KEY`
+   - *AZURE_SEARCH_SERVICE_ENDPOINT*
+   - *AZURE_SEARCH_ADMIN_KEY*
+   - *AZURE_OPENAI_ENDPOINT*
+   - *AZURE_OPENAI_KEY*
 
 If these variables are present, proceed to verify the indexes in Azure Portal.
 
