@@ -97,6 +97,5 @@ powershell -ExecutionPolicy Bypass -File $setupLocal `
   -BlobContainerName $containerName `
   -EmbeddingDeployment $embeddingDeployment `
   -ChatDeployment $chatDeployment `
-  -KnowledgeSourceName "blob-knowledge-source" `
-  -KnowledgeAgentName "blob-knowledge-agent" `
+  -KnowledgeAgentName "knowledge-base" `
   -UseVerbalization "false"
