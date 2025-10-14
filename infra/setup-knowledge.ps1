@@ -7,8 +7,7 @@ param(
   [string]$BlobContainerName = "documents",
   [string]$EmbeddingDeployment = "text-embedding-3-large",
   [string]$ChatDeployment = "gpt-5-mini",
-  [string]$KnowledgeSourceName = "blob-knowledge-source",
-  [string]$KnowledgeAgentName = "blob-knowledge-agent",
+  [string]$KnowledgeAgentName = "knowledge-base",
   [ValidateSet("true","false")][string]$UseVerbalization = "false"
 )
 
@@ -31,7 +30,6 @@ AZURE_OPENAI_EMBEDDING_DEPLOYMENT=$EmbeddingDeployment
 AZURE_OPENAI_EMBEDDING_MODEL_NAME=text-embedding-3-large
 AZURE_OPENAI_CHATGPT_DEPLOYMENT=$ChatDeployment
 AZURE_OPENAI_CHATGPT_MODEL_NAME=gpt-5-mini
-AZURE_SEARCH_KNOWLEDGE_SOURCE=$KnowledgeSourceName
 AZURE_SEARCH_KNOWLEDGE_AGENT=$KnowledgeAgentName
 USE_VERBALIZATION=$UseVerbalization
 "@
@@ -92,6 +90,4 @@ Pop-Location
 
 Write-Host ""
 Write-Host "Setup completed successfully!"
-Write-Host "Environment files created. Documents uploaded to blob storage."
-Write-Host ""Write-Host "Knowledge Source '$KnowledgeSourceName' created/updated successfully."
-Write-Host "Next: Open the notebook to create Knowledge Source and Knowledge Base."
+Write-Host "Next: Open the notebook to create Knowledge Sources from existing indexes and a Knowledge Base with multi knowledge source setup."
