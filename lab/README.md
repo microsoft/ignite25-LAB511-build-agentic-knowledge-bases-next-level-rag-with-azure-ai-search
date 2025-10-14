@@ -1,10 +1,10 @@
 
 
-These instructions are for participants of the **instructor-led** Workshop "Build Knowledge Agents: Next-Level Agentic RAG with Azure AI Search" at Microsoft Ignite 2025.  Register to attend in a city near you at [Microsoft Ignite](https://ignite.microsoft.com/).
+These instructions are for participants of the **instructor-led** Workshop "Build Agentic Knowledge Bases: Next-Level RAG with Azure AI Search" at Microsoft Ignite 2025.  Register to attend in a city near you at [Microsoft Ignite](https://ignite.microsoft.com/).
 
 ## Lab Overview
 
-In this hands-on lab, you’ll build a Knowledge Agent using agentic RAG, the next evolution of retrieval in Azure AI Search. Connect your agentic retrieval engine to your data through smart source selection across multiple indexes and storage systems. Learn how to enhance planning using natural language guidance and generate grounded responses with citations or extractive answers tailored to your use case. By the end, you’ll have a fully functional Knowledge Agent responds over enterprise data.
+In this hands-on lab, you’ll build a Knowledge Base using agentic RAG, the next evolution of retrieval in Azure AI Search. Connect your agentic retrieval engine to your data through smart source selection across multiple indexes and storage systems. Learn how to enhance planning using natural language guidance and generate grounded responses with citations or extractive answers tailored to your use case. By the end, you’ll have a fully functional Knowledge Base responds over enterprise data.
 
 ## Pre-Requisites
 
@@ -24,7 +24,7 @@ To get the most out of this lab, you should have a basic understanding of the fo
 
 To begin, follow the instructions in the **lab511-knowledge-agents.ipynb** notebook provided in your lab environment.  
 
-This notebook contains all the guided content, code examples, and explanations you’ll need to build and understand a fully functional Knowledge Agent. Make sure to run each cell in order and read the accompanying explanations carefully. The notebook is designed to be a complete, step-by-step learning experience.
+This notebook contains all the guided content, code examples, and explanations you’ll need to build and understand a fully functional Agentic Knowledge Base. Make sure to run each cell in order and read the accompanying explanations carefully. The notebook is designed to be a complete, step-by-step learning experience.
 
 Once you’ve completed the notebook and explored all the included capabilities, return to this page and select **Next >** to view the wrap-up and summary section.
 
