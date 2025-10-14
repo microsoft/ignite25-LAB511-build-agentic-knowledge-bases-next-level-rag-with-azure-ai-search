@@ -93,7 +93,7 @@ If these variables are present, proceed to verify the indexes in Azure Portal.
 
 Let's confirm that the search indexes have been created successfully:
 
-1. Open a web browser and navigate to the [Azure Portal](https://portal.azure.com).
+1. Open a web browser and navigate to the +++https://portal.azure.com+++.
 2. Sign in using your lab credentials:
     - **Username**: +++@lab.CloudPortalCredential(User1).Username+++  
     - **Temporary Access Pass**: +++@lab.CloudPortalCredential(User1).AccessToken+++
