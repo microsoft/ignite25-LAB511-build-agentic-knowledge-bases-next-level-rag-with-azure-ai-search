@@ -19,4 +19,13 @@ This lab wasn’t just about running code, it was about understanding how retrie
 - [Create a knowledge source](https://learn.microsoft.com/en-us/azure/search/search-knowledge-source-overview) - Understand how to create and configure different data sources.
 - [Use answer synthesis for citation-backed responses in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-agentic-retrieval-how-to-synthesize) - Learn how to generate grounded answers with citations using answer synthesis.
 
+## Next Steps
+
+Ready to apply what you've learned? Here are some ways to extend this lab:
+
+- **Add more knowledge sources** - Connect additional search indexes or data sources to expand your knowledge base
+- **Customize the agent configuration** - Experiment with different retrieval strategies, reranking thresholds, or output modalities
+- **Build an agent UI** - Create a chat interface that uses your knowledge agent as the backend
+- **Integrate with your data** - Replace the sample indexes with your own enterprise data
+
 ✅ **That’s a wrap!** You now have a working Knowledge Base and a deeper understanding of how retrieval is evolving. Use what you’ve learned here as a foundation and keep exploring how agentic intelligence can power the next generation of enterprise AI solutions.
