@@ -90,5 +90,4 @@ Pop-Location
 
 Write-Host ""
 Write-Host "Setup completed successfully!"
-Write-Host "Environment files created. Documents uploaded to blob storage."
-Write-Host "Next: Open the notebook to create Knowledge Source and Knowledge Base."
+Write-Host "Next: Open the notebook to create Knowledge Sources from existing indexes and a Knowledge Base with multi knowledge source setup."
