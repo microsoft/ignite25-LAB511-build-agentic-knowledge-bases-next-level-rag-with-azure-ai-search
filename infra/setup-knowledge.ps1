@@ -13,7 +13,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$repoRoot = "C:\Users\LabUser\Desktop\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main"
+$repoRoot = "C:\Users\LabUser\Desktop\ignite25-LAB511-build-agentic-knowledge-bases-next-level-rag-with-azure-ai-search-main"
 $knowledgeFolder = Join-Path $repoRoot "notebook"
 $infraFolder = Join-Path $repoRoot "infra"
 

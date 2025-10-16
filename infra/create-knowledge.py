@@ -17,7 +17,7 @@ credential = AzureKeyCredential(admin_key)
 
 azure_openai_endpoint = os.environ["AZURE_OPENAI_ENDPOINT"]
 
-LOG_FILE = r"C:\Users\LabUser\Desktop\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\infra\index-creation.log"
+LOG_FILE = r"C:\Users\LabUser\Desktop\ignite25-LAB511-build-agentic-knowledge-bases-next-level-rag-with-azure-ai-search-main\infra\index-creation.log"
 
 def log_message(message, log_file=LOG_FILE):
     """Write message to log file with timestamp"""
@@ -29,7 +29,7 @@ def log_message(message, log_file=LOG_FILE):
         f.write(f"[{timestamp}] {message}\n")
 
 async def restore_index(endpoint: str, index_name: str, index_file: str, records_file: str, azure_openai_endpoint: str, credential: AzureKeyCredential):
-    default_path = r"C:\Users\LabUser\Desktop\ignite25-LAB511-build-knowledge-agents-next-level-agentic-rag-with-azure-ai-search-main\data\index-data"
+    default_path = r"C:\Users\LabUser\Desktop\ignite25-LAB511-build-agentic-knowledge-bases-next-level-rag-with-azure-ai-search-main\data\index-data"
     
     try:
         log_message(f"[{index_name}] Starting index restoration...")
