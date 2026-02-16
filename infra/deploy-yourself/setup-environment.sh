@@ -1,19 +1,28 @@
+#!/bin/bash
 set -e
 
 RESOURCE_GROUP=""
+KEYLESS=""
 
 # Parse command line arguments
-while getopts "g:h" opt; do
+while getopts "g:h!:k!" opt; do
   case $opt in
     g) RESOURCE_GROUP="$OPTARG" ;;
     h)
-      echo "Usage: $0 -g <resource-group>"
+      echo "Usage: $0 -g <resource-group> [--k]"
       echo ""
       echo "Required:"
-      echo "  -g  Resource group name"
+      echo "  -g  Resource group name"     
+      echo ""
+      echo "Optional:"
+      echo "  -k  Keyless. Forces use of Managed Identities and role-based access control instead of keys"
       echo ""
       echo "  -h  Show this help message"
       exit 0
+      ;;
+    k)
+      KEYLESS="True"
+      echo "Using keyless authentication, using Managed Identities and role-based access control instead of keys."
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -36,6 +45,7 @@ echo ""
 # Get repository root (2 levels up from this script)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+CURRENT_USER=$(az ad signed-in-user show --query userPrincipalName -o tsv)
 
 # Check if resource group exists
 echo "Checking resource group: $RESOURCE_GROUP"
@@ -57,7 +67,9 @@ if [ -z "$SEARCH_SERVICE_NAME" ]; then
     exit 1
 fi
 SEARCH_ENDPOINT="https://${SEARCH_SERVICE_NAME}.search.windows.net"
-SEARCH_ADMIN_KEY=$(az search admin-key show --resource-group "$RESOURCE_GROUP" --service-name "$SEARCH_SERVICE_NAME" --query primaryKey -o tsv)
+if [ -z "$KEYLESS" ]; then
+    SEARCH_ADMIN_KEY=$(az search admin-key show --resource-group "$RESOURCE_GROUP" --service-name "$SEARCH_SERVICE_NAME" --query primaryKey -o tsv)
+fi
 echo "✓ Azure AI Search: $SEARCH_SERVICE_NAME"
 
 # Get Azure OpenAI service
@@ -67,17 +79,51 @@ if [ -z "$OPENAI_SERVICE_NAME" ]; then
     exit 1
 fi
 OPENAI_ENDPOINT=$(az cognitiveservices account show --resource-group "$RESOURCE_GROUP" --name "$OPENAI_SERVICE_NAME" --query properties.endpoint -o tsv)
-OPENAI_KEY=$(az cognitiveservices account keys list --resource-group "$RESOURCE_GROUP" --name "$OPENAI_SERVICE_NAME" --query key1 -o tsv)
+
+if [ -z "$KEYLESS" ]; then
+    OPENAI_KEY=$(az cognitiveservices account keys list --resource-group "$RESOURCE_GROUP" --name "$OPENAI_SERVICE_NAME" --query key1 -o tsv)
+else
+    # Add current user identity to Cognitive Services resource group access policies (for AI Services)
+    if [ -n "$CURRENT_USER" ]; then
+        echo "Adding current user ($CURRENT_USER) to Cognitive Services resource group access policies..."
+        if az role assignment create --assignee "$CURRENT_USER" --role "Cognitive Services User" --scope "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$RESOURCE_GROUP" --output none; then
+            echo "✓ Added $CURRENT_USER to Cognitive Services User role for resource group"
+        else
+            echo "✗ Failed to add $CURRENT_USER to Cognitive Services User role"
+            echo "  You may need to manually add this role assignment in the Azure Portal"
+        fi
+    else
+        echo "✗ Could not determine current user identity"
+        echo "  You may need to manually add your user to the Cognitive Services User role for the resource group in the Azure Portal"
+    fi
+fi
 echo "✓ Azure OpenAI: $OPENAI_SERVICE_NAME"
 
-# Get AI Services (CognitiveServices kind)
-AI_SERVICE_NAME=$(az cognitiveservices account list --resource-group "$RESOURCE_GROUP" --query "[?kind=='CognitiveServices'].name | [0]" -o tsv)
+
+# Get AI Services (AIServices kind)
+AI_SERVICE_NAME=$(az cognitiveservices account list --resource-group "$RESOURCE_GROUP" --query "[?kind=='AIServices'].name | [0]" -o tsv)
 if [ -z "$AI_SERVICE_NAME" ]; then
     echo "✗ No AI Services found in resource group"
     exit 1
 fi
 AI_SERVICES_ENDPOINT=$(az cognitiveservices account show --resource-group "$RESOURCE_GROUP" --name "$AI_SERVICE_NAME" --query properties.endpoint -o tsv)
-AI_SERVICES_KEY=$(az cognitiveservices account keys list --resource-group "$RESOURCE_GROUP" --name "$AI_SERVICE_NAME" --query key1 -o tsv)
+if [ -z "$KEYLESS" ]; then
+    AI_SERVICES_KEY=$(az cognitiveservices account keys list --resource-group "$RESOURCE_GROUP" --name "$AI_SERVICE_NAME" --query key1 -o tsv)
+else
+    # Add current user to AI Services resource access policies (for AI Services)
+    if [ -n "$CURRENT_USER" ]; then
+        echo "Adding current user ($CURRENT_USER) to AI Services resource access policies..."
+        if az role assignment create --assignee "$CURRENT_USER" --role "Cognitive Services User" --scope "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$AI_SERVICE_NAME" --output none; then
+            echo "✓ Added $CURRENT_USER to Cognitive Services User role for AI Services resource"
+        else
+            echo "✗ Failed to add $CURRENT_USER to Cognitive Services User role for AI Services resource"
+            echo "  You may need to manually add this role assignment in the Azure Portal"
+        fi
+    else
+        echo "✗ Could not determine current user identity"
+        echo "  You may need to manually add your user to the Cognitive Services User role for the AI Services resource in the Azure Portal"
+    fi
+fi
 echo "✓ AI Services: $AI_SERVICE_NAME"
 
 # Get Storage Account
@@ -87,6 +133,25 @@ if [ -z "$STORAGE_ACCOUNT_NAME" ]; then
     exit 1
 fi
 BLOB_CONNECTION_STRING=$(az storage account show-connection-string --resource-group "$RESOURCE_GROUP" --name "$STORAGE_ACCOUNT_NAME" --query connectionString -o tsv)
+
+if [ -n "$KEYLESS" ]; then
+    # For keyless, we will use the Storage Account resource ID for role-based access control with Managed Identities
+    BLOB_RESOURCE_ID=$(az storage account show -g "$RESOURCE_GROUP" -n "$STORAGE_ACCOUNT_NAME" --query id -o tsv)
+    # add current user to Storage Account access policies (for Blob Storage)
+    if [ -n "$CURRENT_USER" ]; then
+        echo "Adding current user ($CURRENT_USER) to Storage Account access policies..."
+        if az role assignment create --assignee "$CURRENT_USER" --role "Storage Blob Data Contributor" --scope "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.Storage/storageAccounts/$STORAGE_ACCOUNT_NAME" --output none; then
+            echo "✓ Added $CURRENT_USER to Storage Blob Data Contributor role for Storage Account"
+        else
+            echo "✗ Failed to add $CURRENT_USER to Storage Blob Data Contributor role for Storage Account"
+            echo "  You may need to manually add this role assignment in the Azure Portal"
+        fi
+    else
+        echo "✗ Could not determine current user identity"
+        echo "  You may need to manually add your user to the Storage Blob Data Contributor role"
+        echo "  for the Storage Account resource in the Azure Portal"
+    fi
+fi
 echo "✓ Storage Account: $STORAGE_ACCOUNT_NAME"
 
 # Create .env file
@@ -101,6 +166,8 @@ AZURE_SEARCH_ADMIN_KEY=$SEARCH_ADMIN_KEY
 BLOB_CONNECTION_STRING=$BLOB_CONNECTION_STRING
 BLOB_CONTAINER_NAME=documents
 SEARCH_BLOB_DATASOURCE_CONNECTION_STRING=$BLOB_CONNECTION_STRING
+BLOB_RESOURCE_ID=$BLOB_RESOURCE_ID
+SEARCH_BLOB_DATASOURCE_RESOURCE_ID=$BLOB_RESOURCE_ID
 
 # Azure OpenAI Configuration
 AZURE_OPENAI_ENDPOINT=$OPENAI_ENDPOINT
@@ -117,6 +184,8 @@ AI_SERVICES_KEY=$AI_SERVICES_KEY
 # Knowledge Base Configuration
 AZURE_SEARCH_KNOWLEDGE_AGENT=knowledge-base
 USE_VERBALIZATION=false
+
+KEYLESS=$KEYLESS
 "
 
 ENV_PATH="$REPO_ROOT/.env"
@@ -166,7 +235,9 @@ if [ ! -f "$REQUIREMENTS_PATH" ]; then
 fi
 
 cd "$REPO_ROOT"
+echo "  Upgrading pip..."
 "$VENV_PYTHON" -m pip install --upgrade pip --quiet
+echo "  Installing packages from requirements.txt..."
 "$VENV_PYTHON" -m pip install -r "$REQUIREMENTS_PATH" --quiet
 
 echo "✓ Dependencies installed"

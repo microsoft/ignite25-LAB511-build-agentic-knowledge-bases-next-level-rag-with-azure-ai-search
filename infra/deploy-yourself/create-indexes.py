@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
+from azure.identity import DefaultAzureCredential
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents.aio import SearchClient
 from azure.search.documents.indexes.aio import SearchIndexClient
@@ -23,15 +24,18 @@ repo_root = script_dir.parent.parent
 
 # Azure AI Search configuration
 endpoint = os.environ.get("AZURE_SEARCH_SERVICE_ENDPOINT")
-admin_key = os.environ.get("AZURE_SEARCH_ADMIN_KEY")
 azure_openai_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
 
-if not all([endpoint, admin_key, azure_openai_endpoint]):
+if not all([endpoint, azure_openai_endpoint]):
     print("❌ Error: Missing required environment variables")
-    print("   Make sure .env file exists with AZURE_SEARCH_SERVICE_ENDPOINT, AZURE_SEARCH_ADMIN_KEY, and AZURE_OPENAI_ENDPOINT")
+    print("   Make sure .env file exists with AZURE_SEARCH_SERVICE_ENDPOINT and AZURE_OPENAI_ENDPOINT")
     sys.exit(1)
 
-credential = AzureKeyCredential(admin_key)
+
+if os.getenv('KEYLESS','false').lower() == 'true':
+    credential = DefaultAzureCredential()
+else:
+    credential = AzureKeyCredential(os.environ["AZURE_SEARCH_ADMIN_KEY"])
 
 # Paths
 data_dir = repo_root / "data" / "index-data"

@@ -20,7 +20,10 @@ param(
     [int]$EmbeddingModelCapacity = 30,
     
     [Parameter(Mandatory=$false)]
-    [int]$Gpt41Capacity = 50
+    [int]$Gpt41Capacity = 50,
+    
+    [Parameter(Mandatory=$false, HelpMessage="Optional tags in 'key=value' format, separated by spaces. E.g. 'env=dev project=lab511'")]
+    [string]$Tags = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -72,7 +75,11 @@ try {
     if ($rgExists -eq "true") {
         Write-Host "✓ Resource group already exists" -ForegroundColor Green
     } else {
-        az group create --name $ResourceGroupName --location $Location --output none
+        if ($Tags) {
+            az group create --name $ResourceGroupName --location $Location --tags $Tags --output none
+        } else {
+            az group create --name $ResourceGroupName --location $Location --output none
+        }
         Write-Host "✓ Resource group created" -ForegroundColor Green
     }
 } catch {
@@ -120,6 +127,8 @@ Write-Host ""
 Write-Host "Next Steps:" -ForegroundColor Yellow
 Write-Host "  1. Run the setup script to configure your environment:" -ForegroundColor White
 Write-Host "     .\setup-environment.ps1 -ResourceGroupName '$ResourceGroupName'" -ForegroundColor Gray
+Write-Host "    or if you want to use managed identities:" -ForegroundColor White
+Write-Host "     .\setup-environment.ps1 -ResourceGroupName '$ResourceGroupName' -Keyless $true" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  2. Open the notebooks folder in VS Code:" -ForegroundColor White
 Write-Host "     cd ..\..\notebooks" -ForegroundColor Gray

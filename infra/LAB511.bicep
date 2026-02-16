@@ -87,6 +87,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   kind: 'StorageV2'
   properties: {
     isHnsEnabled: true
+    publicNetworkAccess: 'Enabled'
     defaultToOAuthAuthentication: true
     allowBlobPublicAccess: false
     allowSharedKeyAccess: true
@@ -205,7 +206,7 @@ resource openAiService 'Microsoft.CognitiveServices/accounts@2023-10-01-preview'
 // ===============================================
 
 @description('AI Services for content understanding')
-resource aiServices 'Microsoft.CognitiveServices/accounts@2023-10-01-preview' = {
+resource aiServices 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
   name: resourceNames.aiServices
   location: 'swedencentral'
   sku: {
@@ -219,6 +220,11 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2023-10-01-preview' = 
       virtualNetworkRules: []
       ipRules: []
     }
+    allowProjectManagement: true
+    defaultProject: 'proj-default'
+    associatedProjects: [
+      'proj-default'
+    ]
     publicNetworkAccess: 'Enabled'
     disableLocalAuth: false
   }
@@ -232,7 +238,7 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2023-10-01-preview' = 
 // ===============================================
 
 @description('AI Services for multiple services')
-resource multiAIServices 'Microsoft.CognitiveServices/accounts@2023-10-01-preview' = {
+resource multiAIServices 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
   name: resourceNames.multiAiServices
   location: 'swedencentral'
   sku: {

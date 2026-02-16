@@ -8,17 +8,19 @@ SEARCH_SKU="standard"
 STORAGE_SKU="Standard_RAGRS"
 EMBEDDING_CAPACITY=30
 GPT41_CAPACITY=50
+TAGS=""
 
 # Parse command line arguments
-while getopts "g:l:p:s:t:h" opt; do
+while getopts "g:l:p:s:t:T:h" opt; do
   case $opt in
     g) RESOURCE_GROUP="$OPTARG" ;;
     l) LOCATION="$OPTARG" ;;
     p) RESOURCE_PREFIX="$OPTARG" ;;
     s) SEARCH_SKU="$OPTARG" ;;
     t) STORAGE_SKU="$OPTARG" ;;
+    T) TAGS="$OPTARG" ;;
     h)
-      echo "Usage: $0 -g <resource-group> -l <location> [-p <prefix>] [-s <search-sku>] [-t <storage-sku>]"
+      echo "Usage: $0 -g <resource-group> -l <location> [-p <prefix>] [-s <search-sku>] [-t <storage-sku>] [-T <tags>]"
       echo ""
       echo "Required:"
       echo "  -g  Resource group name"
@@ -28,6 +30,7 @@ while getopts "g:l:p:s:t:h" opt; do
       echo "  -p  Resource prefix (default: lab511)"
       echo "  -s  Search service SKU (default: standard)"
       echo "  -t  Storage account SKU (default: Standard_RAGRS)"
+      echo "  -T  Space formatted tags for resource group (e.g., 'env=dev project=lab511')"
       echo "  -h  Show this help message"
       exit 0
       ;;
@@ -88,7 +91,11 @@ echo "Creating resource group: $RESOURCE_GROUP"
 if az group exists --name "$RESOURCE_GROUP" | grep -q "true"; then
     echo "✓ Resource group already exists"
 else
-    az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --output none
+    if [ -n "$TAGS" ]; then
+        az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --tags "$TAGS" --output none
+    else
+        az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --output none
+    fi
     echo "✓ Resource group created"
 fi
 
@@ -127,6 +134,8 @@ echo ""
 echo "Next Steps:"
 echo "  1. Run the setup script to configure your environment:"
 echo "     ./setup-environment.sh -g '$RESOURCE_GROUP'"
+echo "    or if you want to use managed identities:"
+echo "     ./setup-environment.sh -g '$RESOURCE_GROUP' -k"
 echo ""
 echo "  2. Open the notebooks folder in VS Code:"
 echo "     cd ../../notebooks"
